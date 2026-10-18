@@ -239,9 +239,7 @@ public class LauncherHomeFragment extends Fragment implements DragTutorialHost {
         View navManager = view.findViewById(R.id.lh_nav_manager);
         if (navManager != null) navManager.setOnClickListener(v -> showInstalledFilesManager());
         View navInstances = view.findViewById(R.id.lh_nav_instances);
-        if (navInstances != null) navInstances.setOnClickListener(v -> {
-            if (mLibrary != null) mLibrary.smoothScrollToPosition(0);
-        });
+        if (navInstances != null) navInstances.setOnClickListener(v -> showInstanceChooser());
 
         // ── Brand cluster (top-left, Phase 8): YouTube red / Discord blurple.
         //    Slides in from the left while the account chip lands on the right;
@@ -1053,7 +1051,9 @@ public class LauncherHomeFragment extends Fragment implements DragTutorialHost {
             mLibrary.setVisibility(View.GONE);
             return;
         }
-        mLibrary.setVisibility(View.VISIBLE);
+        // The reference home uses a compact selected-profile pill instead of
+        // a persistent bottom carousel. All profiles remain available in the picker.
+        mLibrary.setVisibility(View.GONE);
         if (mAdapter != null) mAdapter.updateData(mKeys, mProfiles);
         // One-time staggered card entrance (first successful load only).
         if (!mLibraryIntroduced) {
