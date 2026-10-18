@@ -204,6 +204,24 @@ public class LauncherHomeFragment extends Fragment implements DragTutorialHost {
 
         mAccountChip.setOnClickListener(v -> switchAccount());
 
+        // Reference-screen quick actions. Both are wired to real launcher flows.
+        View browserResources = view.findViewById(R.id.lh_browser_resources);
+        if (browserResources != null) {
+            UiMotion.pressFeedback(browserResources);
+            browserResources.setOnClickListener(v -> {
+                v.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                ResourceBrowserDialog.show(requireActivity());
+            });
+        }
+        View manager = view.findViewById(R.id.lh_manager);
+        if (manager != null) {
+            UiMotion.pressFeedback(manager);
+            manager.setOnClickListener(v -> {
+                v.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                showInstalledFilesManager();
+            });
+        }
+
         // ── Brand cluster (top-left, Phase 8): YouTube red / Discord blurple.
         //    Slides in from the left while the account chip lands on the right;
         //    the pills pop one after another (anime stagger). ──
@@ -1647,6 +1665,38 @@ public class LauncherHomeFragment extends Fragment implements DragTutorialHost {
                 else mAccountHead.setImageResource(R.drawable.ic_profile_player);
             });
         });
+    }
+
+    /** Opens the selected instance's real game folders. */
+    private void showInstalledFilesManager() {
+        if (!isAdded()) return;
+        if (mPrimaryKey == null) {
+            Toast.makeText(requireContext(), "Create an instance first", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        LauncherProfiles.load();
+        MinecraftProfile profile = LauncherProfiles.mainProfileJson == null
+                || LauncherProfiles.mainProfileJson.profiles == null
+                ? null : LauncherProfiles.mainProfileJson.profiles.get(mPrimaryKey);
+        if (profile == null) {
+            Toast.makeText(requireContext(), "Selected instance was not found", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        final File gameDir = Tools.getGameDirPath(profile);
+        final String[] labels = {"Mods", "Resource Packs", "Shader Packs", "Worlds", "Open Instance Folder"};
+        final String[] folders = {"mods", "resourcepacks", "shaderpacks", "saves", null};
+        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle("MANAGER · " + (profile.name == null ? "Instance" : profile.name))
+                .setItems(labels, (dialog, which) -> {
+                    File target = folders[which] == null ? gameDir : new File(gameDir, folders[which]);
+                    if (folders[which] != null && !target.exists() && !target.mkdirs()) {
+                        Toast.makeText(requireContext(), "Couldn't create folder", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Tools.openPath(requireContext(), target, false);
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
     }
 
     /** Opens the existing account dialog (add / switch / delete). */
