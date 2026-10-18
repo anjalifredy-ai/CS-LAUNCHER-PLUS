@@ -9,7 +9,7 @@ on:
       - 'LICENSE'
       - 'NOTICE'
   push:
-    branches: [ main ]
+    branches: [ main, 'codex/**' ]
     paths-ignore:
       - '**.md'
       - 'LICENSE'
