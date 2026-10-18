@@ -222,6 +222,17 @@ public class LauncherHomeFragment extends Fragment implements DragTutorialHost {
             });
         }
 
+        View navHome = view.findViewById(R.id.lh_nav_home);
+        if (navHome != null) navHome.setOnClickListener(v -> loadData());
+        View navResources = view.findViewById(R.id.lh_nav_resources);
+        if (navResources != null) navResources.setOnClickListener(v -> ResourceBrowserDialog.show(requireActivity()));
+        View navManager = view.findViewById(R.id.lh_nav_manager);
+        if (navManager != null) navManager.setOnClickListener(v -> showInstalledFilesManager());
+        View navInstances = view.findViewById(R.id.lh_nav_instances);
+        if (navInstances != null) navInstances.setOnClickListener(v -> {
+            if (mLibrary != null) mLibrary.smoothScrollToPosition(0);
+        });
+
         // ── Brand cluster (top-left, Phase 8): YouTube red / Discord blurple.
         //    Slides in from the left while the account chip lands on the right;
         //    the pills pop one after another (anime stagger). ──
