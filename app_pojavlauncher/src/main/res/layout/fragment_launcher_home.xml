@@ -430,8 +430,10 @@
 
         <LinearLayout
             android:id="@+id/lh_launch_row"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             app:layout_constraintStart_toStartOf="parent"
@@ -439,10 +441,69 @@
             app:layout_constraintBottom_toTopOf="@id/lh_launch_specs"
             android:layout_marginBottom="6dp">
 
+            <LinearLayout
+                android:id="@+id/lh_selected_profile"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/lh_launch_button_h"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="9dp"
+                android:background="@drawable/bg_launcher_profile_bar"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="Choose selected instance">
+
+                <ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:src="@drawable/ic_layers"
+                    android:contentDescription="@null"
+                    app:tint="#A9C8F7" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="7dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/lh_selected_profile_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="SELECTED PROFILE"
+                        android:textColor="#F4F7FF"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:ellipsize="end" />
+
+                    <TextView
+                        android:id="@+id/lh_selected_profile_version"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Choose an instance"
+                        android:textColor="#9AB0CF"
+                        android:textSize="8sp"
+                        android:maxLines="1"
+                        android:ellipsize="end" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⌄"
+                    android:textColor="#B8D2FA"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
             <!-- Signature launch capsule: wave/glow morph + STOP-cancel. -->
             <net.kdt.pojavlaunch.ui.PremiumPlayButtonView
                 android:id="@+id/lh_launch_button"
-                android:layout_width="168dp"
+                android:layout_width="136dp"
                 android:layout_height="@dimen/lh_launch_button_h"
                 android:contentDescription="Launch Minecraft">
 
@@ -675,6 +736,7 @@
             android:id="@+id/lh_library"
             android:layout_width="0dp"
             android:layout_height="@dimen/lh_carousel_height"
+            android:visibility="gone"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
