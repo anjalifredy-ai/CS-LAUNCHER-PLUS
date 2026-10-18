@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Small purple pill badge (loader tag on featured / instance cards). -->
+<!-- Neutral glass badge; avoid the old purple accent across launcher cards. -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="#8B5CF6" />
+    <solid android:color="#263449" />
+    <stroke android:width="1dp" android:color="#49617F" />
     <corners android:radius="8dp" />
 </shape>
