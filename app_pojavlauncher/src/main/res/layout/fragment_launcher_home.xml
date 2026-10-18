@@ -438,8 +438,8 @@
             android:gravity="center_vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/lh_launch_specs"
-            android:layout_marginBottom="6dp">
+            app:layout_constraintBottom_toTopOf="@id/lh_quick_actions"
+            android:layout_marginBottom="8dp">
 
             <LinearLayout
                 android:id="@+id/lh_selected_profile"
@@ -503,36 +503,55 @@
             <!-- Signature launch capsule: wave/glow morph + STOP-cancel. -->
             <net.kdt.pojavlaunch.ui.PremiumPlayButtonView
                 android:id="@+id/lh_launch_button"
-                android:layout_width="136dp"
+                android:layout_width="150dp"
                 android:layout_height="@dimen/lh_launch_button_h"
                 android:contentDescription="Launch Minecraft">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:paddingHorizontal="24dp">
+                    android:gravity="center"
+                    android:paddingHorizontal="8dp">
 
                     <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:src="@drawable/ic_play_arrow"
                         app:tint="#0E0E11"
                         android:contentDescription="@null" />
 
-                    <TextView
-                        android:id="@+id/lh_launch_label"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:text="LAUNCH"
-                        android:textColor="#0E0E11"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:letterSpacing="0.12"
-                        android:includeFontPadding="false" />
+                        android:layout_marginStart="7dp"
+                        android:orientation="vertical"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/lh_launch_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PLAY"
+                            android:textColor="#0E0E11"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:letterSpacing="0.08"
+                            android:includeFontPadding="false" />
+
+                        <TextView
+                            android:id="@+id/lh_launch_version"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:text="Select version"
+                            android:textColor="#253247"
+                            android:textSize="8sp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:includeFontPadding="false" />
+                    </LinearLayout>
                 </LinearLayout>
             </net.kdt.pojavlaunch.ui.PremiumPlayButtonView>
 
@@ -568,6 +587,7 @@
             android:layout_marginBottom="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/lh_quick_actions">
 
             <ImageView
