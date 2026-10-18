@@ -216,24 +216,6 @@ public class LauncherHomeFragment extends Fragment implements DragTutorialHost {
             selectedProfile.setOnClickListener(v -> showInstanceChooser());
         }
 
-        // Reference-screen quick actions. Both are wired to real launcher flows.
-        View browserResources = view.findViewById(R.id.lh_browser_resources);
-        if (browserResources != null) {
-            UiMotion.pressFeedback(browserResources);
-            browserResources.setOnClickListener(v -> {
-                v.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
-                ResourceBrowserDialog.show(requireActivity());
-            });
-        }
-        View manager = view.findViewById(R.id.lh_manager);
-        if (manager != null) {
-            UiMotion.pressFeedback(manager);
-            manager.setOnClickListener(v -> {
-                v.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
-                showInstalledFilesManager();
-            });
-        }
-
         View navHome = view.findViewById(R.id.lh_nav_home);
         if (navHome != null) navHome.setOnClickListener(v -> loadData());
         View navResources = view.findViewById(R.id.lh_nav_resources);
