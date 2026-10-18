@@ -28,6 +28,7 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:alpha="0.55"
+        android:src="@drawable/bg_hero_minecraft"
         android:contentDescription="@null"
         tools:src="@drawable/bg_hero_minecraft" />
     <ImageView
@@ -99,7 +100,7 @@
                     android:includeFontPadding="false"
                     android:letterSpacing="0.03"
                     android:maxLines="1"
-                    android:text="CS LAUNCHER PLUS"
+                    android:text="NEXUS LAUNCHER"
                     android:textColor="#FFFFFF"
                     android:textSize="10sp"
                     android:textStyle="bold"
@@ -113,7 +114,7 @@
                     android:includeFontPadding="false"
                     android:letterSpacing="0.08"
                     android:maxLines="1"
-                    android:text="PLAY BEYOND LIMITS"
+                    android:text="MINECRAFT • YOUR WAY"
                     android:textColor="#9AB0CF"
                     android:textSize="6.5sp"
                     android:textStyle="bold"
@@ -155,7 +156,7 @@
                 android:layout_marginStart="3dp"
                 android:background="@drawable/bg_lh_glass"
                 android:gravity="center"
-                android:text="Browse"
+                android:text="Mods & Packs"
                 android:textColor="#DCEBFF"
                 android:textSize="10sp"
                 android:contentDescription="Browse mods, resource packs and shaders"
@@ -183,7 +184,7 @@
                 android:layout_marginStart="3dp"
                 android:background="@drawable/bg_lh_glass"
                 android:gravity="center"
-                android:text="Manager"
+                android:text="Settings"
                 android:textColor="#DCEBFF"
                 android:textSize="10sp"
                 android:contentDescription="Manager"
@@ -572,6 +573,69 @@
                     app:tint="#D5E6FF"
                     android:contentDescription="Edit profile" />
             </FrameLayout>
+        </LinearLayout>
+
+
+        <!-- Hosting shortcuts requested for the custom Home UI. -->
+        <LinearLayout
+            android:id="@+id/lh_hosting_row"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@drawable/bg_lh_glass"
+            android:paddingHorizontal="5dp"
+            android:layout_marginBottom="6dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/lh_launch_row">
+
+            <TextView
+                android:id="@+id/lh_hosting_aternos"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:gravity="center"
+                android:paddingHorizontal="10dp"
+                android:text="Aternos"
+                android:textColor="#F4F7FF"
+                android:textStyle="bold"
+                android:textSize="10sp"
+                android:background="@drawable/bg_lh_glass"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="Open Aternos server hosting" />
+
+            <TextView
+                android:id="@+id/lh_hosting_minehut"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginStart="4dp"
+                android:gravity="center"
+                android:paddingHorizontal="10dp"
+                android:text="Minehut"
+                android:textColor="#F4F7FF"
+                android:textStyle="bold"
+                android:textSize="10sp"
+                android:background="@drawable/bg_lh_glass"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="Open Minehut server hosting" />
+
+            <TextView
+                android:id="@+id/lh_hosting_exaroton"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginStart="4dp"
+                android:gravity="center"
+                android:paddingHorizontal="10dp"
+                android:text="exaroton"
+                android:textColor="#F4F7FF"
+                android:textStyle="bold"
+                android:textSize="10sp"
+                android:background="@drawable/bg_lh_glass"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="Open exaroton server hosting" />
         </LinearLayout>
 
         <!-- Profile runtime Java version and RAM allocation spec pill -->
