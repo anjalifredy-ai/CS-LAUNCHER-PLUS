@@ -126,18 +126,24 @@ public class ProfileAdapter extends BaseAdapter {
             extendedTextView.setText(versionName);
         else extendedTextView.setText(String.format("%s - %s", profileName, versionName));
 
-        // Set selected background if needed
-        if(displaySelection){
-            String selectedProfile = LauncherPreferences.DEFAULT_PREF.getString(LauncherPreferences.PREF_KEY_CURRENT_PROFILE,"");
-            extendedTextView.setBackgroundColor(selectedProfile.equals(nm) ? ColorUtils.setAlphaComponent(Color.WHITE,60) : Color.TRANSPARENT);
-        }else extendedTextView.setBackgroundColor(Color.TRANSPARENT);
+        // Rounded navy rows. Keep the active profile visibly selected without
+        // replacing the selector background with a flat color.
+        if (displaySelection) {
+            String selectedProfile = LauncherPreferences.DEFAULT_PREF.getString(
+                    LauncherPreferences.PREF_KEY_CURRENT_PROFILE, "");
+            extendedTextView.setBackgroundResource(selectedProfile.equals(nm)
+                    ? R.drawable.bg_instance_picker_row_selected
+                    : R.drawable.bg_instance_picker_row);
+        } else {
+            extendedTextView.setBackgroundResource(R.drawable.bg_instance_picker_row);
+        }
     }
 
     public void setViewExtra(View v, ProfileAdapterExtra extra) {
         ExtendedTextView extendedTextView = (ExtendedTextView) v;
         extendedTextView.setCompoundDrawablesRelative(extra.icon, null, extendedTextView.getCompoundsDrawables()[2], null);
         extendedTextView.setText(extra.name);
-        extendedTextView.setBackgroundColor(Color.TRANSPARENT);
+        extendedTextView.setBackgroundResource(R.drawable.bg_launcher_action_card);
     }
 
     public void setView(View v, Object object, boolean displaySelection) {
