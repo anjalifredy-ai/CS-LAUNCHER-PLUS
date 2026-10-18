@@ -99,6 +99,8 @@ public class LauncherHomeFragment extends Fragment implements DragTutorialHost {
 
     // Stage
     private TextView mLaunchLabel;
+    private TextView mSelectedProfileName;
+    private TextView mSelectedProfileVersion;
     private TextView mHeroName;
     private PremiumPlayButtonView mLaunchButton;
     private View mLaunchSpecs;
@@ -151,6 +153,8 @@ public class LauncherHomeFragment extends Fragment implements DragTutorialHost {
         mBgB = view.findViewById(R.id.lh_bg_b);
         mLaunchButton = view.findViewById(R.id.lh_launch_button);
         mLaunchLabel = view.findViewById(R.id.lh_launch_label);
+        mSelectedProfileName = view.findViewById(R.id.lh_selected_profile_name);
+        mSelectedProfileVersion = view.findViewById(R.id.lh_selected_profile_version);
         mLaunchSpecs = view.findViewById(R.id.lh_launch_specs);
         mSpecJavaText = view.findViewById(R.id.lh_spec_java_text);
         mSpecRamText = view.findViewById(R.id.lh_spec_ram_text);
@@ -203,6 +207,12 @@ public class LauncherHomeFragment extends Fragment implements DragTutorialHost {
         });
 
         mAccountChip.setOnClickListener(v -> switchAccount());
+
+        View selectedProfile = view.findViewById(R.id.lh_selected_profile);
+        if (selectedProfile != null) {
+            UiMotion.pressFeedback(selectedProfile);
+            selectedProfile.setOnClickListener(v -> showInstanceChooser());
+        }
 
         // Reference-screen quick actions. Both are wired to real launcher flows.
         View browserResources = view.findViewById(R.id.lh_browser_resources);
@@ -983,6 +993,11 @@ public class LauncherHomeFragment extends Fragment implements DragTutorialHost {
         }
         mPrimaryKey = mKeys.get(0);
         MinecraftProfile p = mProfiles.get(0);
+        if (mSelectedProfileName != null) mSelectedProfileName.setText(p.name == null ? "Minecraft" : p.name);
+        if (mSelectedProfileVersion != null) {
+            String version = p.lastVersionId == null ? "Version not selected" : p.lastVersionId;
+            mSelectedProfileVersion.setText(version);
+        }
         mLaunchLabel.setText("LAUNCH");
         mLaunchButton.setContentDescription("Launch " + (p.name != null ? p.name : "instance"));
 
@@ -1676,6 +1691,38 @@ public class LauncherHomeFragment extends Fragment implements DragTutorialHost {
                 else mAccountHead.setImageResource(R.drawable.ic_profile_player);
             });
         });
+    }
+
+    /** Instance chooser shown from the profile pill and top navigation. */
+    private void showInstanceChooser() {
+        if (!isAdded()) return;
+        if (mKeys == null || mKeys.isEmpty()) {
+            new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                    .setTitle("ALL INSTANCES")
+                    .setMessage("No instances yet. Create one to get started.")
+                    .setPositiveButton("Create New Instance", (dialog, which) -> CreationTypeDialog.show(this))
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show();
+            return;
+        }
+        String[] labels = new String[mKeys.size()];
+        int checked = 0;
+        for (int i = 0; i < mKeys.size(); i++) {
+            MinecraftProfile p = i < mProfiles.size() ? mProfiles.get(i) : null;
+            labels[i] = p == null || p.name == null ? "Minecraft instance" : p.name;
+            if (mKeys.get(i).equals(mPrimaryKey)) checked = i;
+        }
+        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle("ALL INSTANCES")
+                .setSingleChoiceItems(labels, checked, (dialog, which) -> {
+                    if (which >= 0 && which < mKeys.size() && which < mProfiles.size()) {
+                        promoteToPrimary(mKeys.get(which), mProfiles.get(which));
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton("Create New Instance", (dialog, which) -> CreationTypeDialog.show(this))
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
     }
 
     /** Opens the selected instance's real game folders. */
