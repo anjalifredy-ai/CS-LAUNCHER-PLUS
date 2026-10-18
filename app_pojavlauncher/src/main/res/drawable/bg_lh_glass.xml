@@ -6,10 +6,10 @@
         <shape android:shape="rectangle">
             <gradient
                 android:angle="90"
-                android:startColor="#F01A1330"
-                android:endColor="#F013101F" />
+                android:startColor="#F0182944"
+                android:endColor="#F0121E32" />
             <corners android:radius="22dp" />
-            <stroke android:width="1dp" android:color="#43385F" />
+            <stroke android:width="1dp" android:color="#405A7B" />
         </shape>
     </item>
     <!-- top inner sheen -->
