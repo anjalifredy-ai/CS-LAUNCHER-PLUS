@@ -5,11 +5,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#0B1222"
-    android:paddingHorizontal="12dp">
+    android:paddingHorizontal="14dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="58dp"
+        android:layout_height="68dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:paddingHorizontal="4dp">
@@ -33,7 +33,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ALL INSTANCES"
+                android:text="YOUR INSTANCES"
                 android:textColor="#F4F7FF"
                 android:textStyle="bold"
                 android:textSize="14sp"
@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:text="Choose the profile you want to play"
+                android:text="Select a profile · tap + to create a new one"
                 android:textColor="#91A4C4"
                 android:textSize="11sp"
                 android:maxLines="1" />
@@ -63,8 +63,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:paddingHorizontal="2dp"
-        android:paddingTop="12dp"
-        android:paddingBottom="16dp"
+        android:paddingTop="14dp"
+        android:paddingBottom="20dp"
         android:clipToPadding="false"
         android:overScrollMode="never" />
 
