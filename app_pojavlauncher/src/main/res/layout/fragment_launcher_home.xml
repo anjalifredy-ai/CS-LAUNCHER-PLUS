@@ -137,55 +137,55 @@
 
             <TextView
                 android:id="@+id/lh_nav_home"
-                android:layout_width="36dp"
+                android:layout_width="62dp"
                 android:layout_height="32dp"
                 android:background="@drawable/bg_launcher_profile_bar"
                 android:gravity="center"
-                android:text="⌂"
+                android:text="⌂ Home"
                 android:textColor="#EAF3FF"
-                android:textSize="22sp"
+                android:textSize="10sp"
                 android:contentDescription="Home"
                 android:clickable="true"
                 android:focusable="true" />
 
             <TextView
                 android:id="@+id/lh_nav_resources"
-                android:layout_width="36dp"
+                android:layout_width="76dp"
                 android:layout_height="32dp"
                 android:layout_marginStart="3dp"
                 android:background="@drawable/bg_launcher_action_card"
                 android:gravity="center"
-                android:text="◉"
-                android:textColor="#A9C8F7"
-                android:textSize="18sp"
-                android:contentDescription="Browser resources"
+                android:text="Browse"
+                android:textColor="#DCEBFF"
+                android:textSize="10sp"
+                android:contentDescription="Browse mods, resource packs and shaders"
                 android:clickable="true"
                 android:focusable="true" />
 
             <TextView
                 android:id="@+id/lh_nav_instances"
-                android:layout_width="36dp"
+                android:layout_width="76dp"
                 android:layout_height="32dp"
                 android:layout_marginStart="3dp"
                 android:background="@drawable/bg_launcher_action_card"
                 android:gravity="center"
-                android:text="▤"
-                android:textColor="#A9C8F7"
-                android:textSize="18sp"
+                android:text="Instances"
+                android:textColor="#DCEBFF"
+                android:textSize="10sp"
                 android:contentDescription="Choose instance"
                 android:clickable="true"
                 android:focusable="true" />
 
             <TextView
                 android:id="@+id/lh_nav_manager"
-                android:layout_width="36dp"
+                android:layout_width="76dp"
                 android:layout_height="32dp"
                 android:layout_marginStart="3dp"
                 android:background="@drawable/bg_launcher_action_card"
                 android:gravity="center"
-                android:text="▣"
-                android:textColor="#A9C8F7"
-                android:textSize="18sp"
+                android:text="Manager"
+                android:textColor="#DCEBFF"
+                android:textSize="10sp"
                 android:contentDescription="Manager"
                 android:clickable="true"
                 android:focusable="true" />
@@ -244,7 +244,7 @@
                 android:letterSpacing="0.06"
                 android:paddingHorizontal="7dp"
                 android:paddingVertical="3dp"
-                android:background="@drawable/bg_hd_badge_purple"
+                android:background="@drawable/bg_lh_glass"
                 android:includeFontPadding="false" />
 
             <ImageView
