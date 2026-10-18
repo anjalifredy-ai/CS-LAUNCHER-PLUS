@@ -99,6 +99,7 @@ public class LauncherHomeFragment extends Fragment implements DragTutorialHost {
 
     // Stage
     private TextView mLaunchLabel;
+    private TextView mLaunchVersion;
     private TextView mSelectedProfileName;
     private TextView mSelectedProfileVersion;
     private TextView mHeroName;
@@ -153,6 +154,7 @@ public class LauncherHomeFragment extends Fragment implements DragTutorialHost {
         mBgB = view.findViewById(R.id.lh_bg_b);
         mLaunchButton = view.findViewById(R.id.lh_launch_button);
         mLaunchLabel = view.findViewById(R.id.lh_launch_label);
+        mLaunchVersion = view.findViewById(R.id.lh_launch_version);
         mSelectedProfileName = view.findViewById(R.id.lh_selected_profile_name);
         mSelectedProfileVersion = view.findViewById(R.id.lh_selected_profile_version);
         mLaunchSpecs = view.findViewById(R.id.lh_launch_specs);
@@ -996,14 +998,17 @@ public class LauncherHomeFragment extends Fragment implements DragTutorialHost {
             String version = p.lastVersionId == null ? "Version not selected" : p.lastVersionId;
             mSelectedProfileVersion.setText(version);
         }
-        mLaunchLabel.setText("LAUNCH");
+        if (mLaunchVersion != null) {
+            mLaunchVersion.setText(p.lastVersionId == null ? "Select version" : p.lastVersionId);
+        }
+        mLaunchLabel.setText("PLAY");
         mLaunchButton.setContentDescription("Launch " + (p.name != null ? p.name : "instance"));
 
-        if (mLaunchSpecs != null) {
-            mLaunchSpecs.setVisibility(View.VISIBLE);
-            if (mSpecJavaText != null) mSpecJavaText.setText(resolveJavaVersion(p));
-            if (mSpecRamText != null) mSpecRamText.setText(resolveAllocatedRam());
-        }
+        // Java/RAM metadata is kept for settings, not as an extra floating
+        // row on the home screen; the version is shown inside the Play capsule.
+        if (mLaunchSpecs != null) mLaunchSpecs.setVisibility(View.GONE);
+        if (mSpecJavaText != null) mSpecJavaText.setText(resolveJavaVersion(p));
+        if (mSpecRamText != null) mSpecRamText.setText(resolveAllocatedRam());
 
         // Async: mods count + stage background artwork.
         final String key = mPrimaryKey;
