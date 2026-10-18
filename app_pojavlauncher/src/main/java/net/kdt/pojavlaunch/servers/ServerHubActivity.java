@@ -1,6 +1,8 @@
 package net.kdt.pojavlaunch.servers;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -10,6 +12,9 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -104,6 +109,11 @@ public class ServerHubActivity extends AppCompatActivity implements ServerAdapte
             pingAll();
         });
         UiMotion.pressFeedback(back, add, refresh);
+
+        // Hosting control panels stay inside the launcher in a dedicated WebView.
+        bindHostingButton(R.id.hub_host_aternos, "Aternos", "https://aternos.org/");
+        bindHostingButton(R.id.hub_host_minehut, "Minehut", "https://minehut.com/");
+        bindHostingButton(R.id.hub_host_exaroton, "exaroton", "https://exaroton.com/");
     }
 
     @Override
@@ -217,6 +227,81 @@ public class ServerHubActivity extends AppCompatActivity implements ServerAdapte
         mWriter.shutdown(); // queued writes still run to completion, nothing is dropped
     }
 
+    private void bindHostingButton(int viewId, String provider, String url) {
+        View button = findViewById(viewId);
+        if (button == null) return;
+        button.setOnClickListener(v -> {
+            ServerPlayDialog.press(v);
+            showHostingWebView(provider, url);
+        });
+        UiMotion.pressFeedback(button);
+    }
+
+    private void showHostingWebView(String provider, String url) {
+        final Dialog dialog = new Dialog(this);
+        android.widget.LinearLayout root = new android.widget.LinearLayout(this);
+        root.setOrientation(android.widget.LinearLayout.VERTICAL);
+        root.setBackgroundColor(0xFF10151F);
+
+        android.widget.LinearLayout bar = new android.widget.LinearLayout(this);
+        bar.setGravity(android.view.Gravity.CENTER_VERTICAL);
+        bar.setPadding(18, 12, 12, 12);
+        TextView title = new TextView(this);
+        title.setText(provider + " Hosting");
+        title.setTextColor(0xFFF3F6FC);
+        title.setTextSize(17);
+        title.setTypeface(null, android.graphics.Typeface.BOLD);
+        bar.addView(title, new android.widget.LinearLayout.LayoutParams(0,
+                android.widget.LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        TextView close = new TextView(this);
+        close.setText("CLOSE");
+        close.setTextColor(0xFF9FD7C2);
+        close.setTextSize(12);
+        close.setPadding(12, 10, 8, 10);
+        bar.addView(close);
+        root.addView(bar);
+
+        WebView web = new WebView(this);
+        WebSettings settings = web.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setLoadsImagesAutomatically(true);
+        settings.setSupportZoom(true);
+        settings.setBuiltInZoomControls(true);
+        settings.setDisplayZoomControls(false);
+        web.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String target) {
+                Uri uri = Uri.parse(target);
+                String host = uri.getHost();
+                if (host == null) return true;
+                boolean allowed = host.equals("aternos.org") || host.endsWith(".aternos.org")
+                        || host.equals("minehut.com") || host.endsWith(".minehut.com")
+                        || host.equals("exaroton.com") || host.endsWith(".exaroton.com");
+                if (allowed) return false;
+                Toast.makeText(ServerHubActivity.this,
+                        "External link blocked in hosting view", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+        root.addView(web, new android.widget.LinearLayout.LayoutParams(
+                android.widget.LinearLayout.LayoutParams.MATCH_PARENT, 0, 1f));
+        close.setOnClickListener(v -> dialog.dismiss());
+        dialog.setContentView(root);
+        dialog.setOnDismissListener(d -> web.destroy());
+        dialog.show();
+        Window window = dialog.getWindow();
+        if (window != null) {
+            window.setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(0xFF10151F));
+            window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,
+                    WindowManager.LayoutParams.MATCH_PARENT);
+        }
+        web.loadUrl(url);
+    }
+
+    private void setStatus(String text) {
+        mStatus.setText(text);
+    }
     private void setStatus(String text) {
         mStatus.setText(text);
     }
