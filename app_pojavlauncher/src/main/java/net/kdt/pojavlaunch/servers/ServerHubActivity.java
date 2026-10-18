@@ -302,9 +302,6 @@ public class ServerHubActivity extends AppCompatActivity implements ServerAdapte
     private void setStatus(String text) {
         mStatus.setText(text);
     }
-    private void setStatus(String text) {
-        mStatus.setText(text);
-    }
 
     private static String labelOf(ServerEntry e) {
         return e.name != null && !e.name.isEmpty() ? e.name : e.address;
