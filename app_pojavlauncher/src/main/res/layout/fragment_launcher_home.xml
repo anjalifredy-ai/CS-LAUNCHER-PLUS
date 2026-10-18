@@ -438,7 +438,7 @@
             android:gravity="center_vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/lh_quick_actions"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="8dp">
 
             <LinearLayout
