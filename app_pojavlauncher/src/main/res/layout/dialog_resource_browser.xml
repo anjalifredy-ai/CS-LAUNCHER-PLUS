@@ -71,7 +71,7 @@
             android:src="@drawable/ic_rb_close" />
     </LinearLayout>
 
-    <!-- Tabs: Resource Packs | Shader Packs (Mods intentionally absent) -->
+    <!-- Tabs: Resource Packs | Shader Packs | Mods -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
             android:letterSpacing="0.06"
             android:paddingTop="7dp"
             android:paddingBottom="8dp"
-            android:text="RESOURCE PACKS"
+            android:text="PACKS"
             android:textColor="#151518"
             android:textSize="9.5sp"
             android:textStyle="bold" />
@@ -97,14 +97,30 @@
             android:id="@+id/cs_rb_tab_shaders"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="5dp"
             android:layout_weight="1"
             android:background="@drawable/bg_cs_tab_pill_idle"
             android:gravity="center"
             android:letterSpacing="0.06"
             android:paddingTop="7dp"
             android:paddingBottom="8dp"
-            android:text="SHADER PACKS"
+            android:text="SHADERS"
+            android:textColor="#D0D0D0"
+            android:textSize="9.5sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/cs_rb_tab_mods"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_cs_tab_pill_idle"
+            android:gravity="center"
+            android:letterSpacing="0.06"
+            android:paddingTop="7dp"
+            android:paddingBottom="8dp"
+            android:text="MODS"
             android:textColor="#D0D0D0"
             android:textSize="9.5sp"
             android:textStyle="bold" />
@@ -133,7 +149,7 @@
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:background="@null"
-            android:hint="Search resource packs &amp; shaders..."
+            android:hint="Search packs, shaders &amp; mods..."
             android:imeOptions="actionSearch|flagNoExtractUi"
             android:inputType="text"
             android:maxLines="1"
