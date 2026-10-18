@@ -148,6 +148,20 @@ public class LauncherHomeFragment extends Fragment implements DragTutorialHost {
         super(R.layout.fragment_launcher_home);
     }
 
+
+    private void bindHostingShortcut(@NonNull View root, int viewId, @NonNull String url) {
+        View shortcut = root.findViewById(viewId);
+        if (shortcut == null) return;
+        shortcut.setOnClickListener(v -> {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse(url));
+                startActivity(intent);
+            } catch (Exception e) {
+                Toast.makeText(requireContext(), "Unable to open hosting website", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mBgA = view.findViewById(R.id.lh_bg_a);
@@ -223,7 +237,14 @@ public class LauncherHomeFragment extends Fragment implements DragTutorialHost {
         View navManager = view.findViewById(R.id.lh_nav_manager);
         if (navManager != null) navManager.setOnClickListener(v -> showInstalledFilesManager());
         View navInstances = view.findViewById(R.id.lh_nav_instances);
+
         if (navInstances != null) navInstances.setOnClickListener(v -> showInstanceChooser());
+
+        // External hosting providers are browser shortcuts; no hosting backend is created here.
+        bindHostingShortcut(view, R.id.lh_hosting_aternos, "https://aternos.org/");
+        bindHostingShortcut(view, R.id.lh_hosting_minehut, "https://minehut.com/");
+        bindHostingShortcut(view, R.id.lh_hosting_exaroton, "https://exaroton.com/");
+
 
         // ── Brand cluster (top-left, Phase 8): YouTube red / Discord blurple.
         //    Slides in from the left while the account chip lands on the right;
