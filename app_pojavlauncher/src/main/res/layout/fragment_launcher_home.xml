@@ -156,7 +156,7 @@
                 android:layout_marginStart="3dp"
                 android:background="@drawable/bg_lh_glass"
                 android:gravity="center"
-                android:text="Mods & Packs"
+                android:text="Mods &amp; Packs"
                 android:textColor="#DCEBFF"
                 android:textSize="10sp"
                 android:contentDescription="Browse mods, resource packs and shaders"
