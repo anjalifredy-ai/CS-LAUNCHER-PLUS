@@ -42,6 +42,11 @@ public class InstancePickerFragment extends Fragment {
         view.findViewById(R.id.instance_picker_back)
                 .setOnClickListener(v -> requireActivity().getOnBackPressedDispatcher().onBackPressed());
 
+        View createButton = view.findViewById(R.id.instance_picker_create);
+        if (createButton != null) {
+            createButton.setOnClickListener(v -> CreationTypeDialog.show(InstancePickerFragment.this));
+        }
+
         RecyclerView recycler = view.findViewById(R.id.instance_picker_recycler);
         recycler.setLayoutManager(new LinearLayoutManager(requireContext()));
 

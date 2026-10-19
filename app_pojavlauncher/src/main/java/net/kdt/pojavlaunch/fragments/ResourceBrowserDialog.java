@@ -70,6 +70,7 @@ public final class ResourceBrowserDialog extends DialogFragment {
     private static final int PAGE = 24;
     private static final int TYPE_PACKS = 0;
     private static final int TYPE_SHADERS = 1;
+    private static final int TYPE_MODS = 2;
 
     private static final int ST_IDLE = 0, ST_BUSY = 1, ST_INSTALLED = 2, ST_ERROR = 3;
 
@@ -93,7 +94,7 @@ public final class ResourceBrowserDialog extends DialogFragment {
     private ResourceAdapter mAdapter;
 
     private View mContent;
-    private TextView mSubtitle, mVersionNote, mTabPacks, mTabShaders, mEmpty;
+    private TextView mSubtitle, mVersionNote, mTabPacks, mTabShaders, mTabMods, mEmpty;
     private ProgressBar mLoading;
     private RecyclerView mList;
 
@@ -197,7 +198,7 @@ public final class ResourceBrowserDialog extends DialogFragment {
         mClosed = true;
         if (mContent != null) mContent.animate().cancel();
         mContent = null; mAdapter = null; mList = null;
-        mSubtitle = null; mVersionNote = null; mTabPacks = null; mTabShaders = null;
+        mSubtitle = null; mVersionNote = null; mTabPacks = null; mTabShaders = null; mTabMods = null;
         mEmpty = null; mLoading = null;
         super.onDestroyView();
     }
@@ -209,6 +210,7 @@ public final class ResourceBrowserDialog extends DialogFragment {
         mVersionNote = root.findViewById(R.id.cs_rb_version_note);
         mTabPacks = root.findViewById(R.id.cs_rb_tab_packs);
         mTabShaders = root.findViewById(R.id.cs_rb_tab_shaders);
+        mTabMods = root.findViewById(R.id.cs_rb_tab_mods);
         mEmpty = root.findViewById(R.id.cs_rb_empty);
         mLoading = root.findViewById(R.id.cs_rb_loading);
         mList = root.findViewById(R.id.cs_rb_list);
@@ -218,7 +220,7 @@ public final class ResourceBrowserDialog extends DialogFragment {
         mSubtitle.setText("Installing into: " + prof + (ver.isEmpty() ? "" : "  •  " + ver));
         mVersionNote.setText(mMcVersion != null
                 ? "Filtered for Minecraft " + mMcVersion
-                : "Showing packs for all game versions");
+                : (mType == TYPE_MODS ? "Browse mods for your Minecraft version" : "Showing packs for all game versions"));
 
         mAdapter = new ResourceAdapter();
         mList.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -240,6 +242,7 @@ public final class ResourceBrowserDialog extends DialogFragment {
         if (close != null) close.setOnClickListener(v -> dismiss());
         mTabPacks.setOnClickListener(v -> selectTab(TYPE_PACKS));
         mTabShaders.setOnClickListener(v -> selectTab(TYPE_SHADERS));
+        mTabMods.setOnClickListener(v -> selectTab(TYPE_MODS));
 
         final android.widget.EditText searchInput = mContent.findViewById(R.id.cs_rb_search_input);
         final View searchClear = mContent.findViewById(R.id.cs_rb_search_clear);
@@ -290,12 +293,15 @@ public final class ResourceBrowserDialog extends DialogFragment {
     }
 
     private void applyTabVisuals() {
-        if (mTabPacks == null || mTabShaders == null) return;
-        boolean packs = mType == TYPE_PACKS;
-        mTabPacks.setBackgroundResource(packs ? R.drawable.bg_cs_tab_pill_active : R.drawable.bg_cs_tab_pill_idle);
-        mTabShaders.setBackgroundResource(packs ? R.drawable.bg_cs_tab_pill_idle : R.drawable.bg_cs_tab_pill_active);
-        mTabPacks.setTextColor(packs ? 0xFF151518 : 0xFFD0D0D0);
-        mTabShaders.setTextColor(packs ? 0xFFD0D0D0 : 0xFF151518);
+        if (mTabPacks == null || mTabShaders == null || mTabMods == null) return;
+        setTabStyle(mTabPacks, mType == TYPE_PACKS);
+        setTabStyle(mTabShaders, mType == TYPE_SHADERS);
+        setTabStyle(mTabMods, mType == TYPE_MODS);
+    }
+
+    private void setTabStyle(TextView tab, boolean active) {
+        tab.setBackgroundResource(active ? R.drawable.bg_cs_tab_pill_active : R.drawable.bg_cs_tab_pill_idle);
+        tab.setTextColor(active ? 0xFF151518 : 0xFFD0D0D0);
     }
 
     // ───────────────────────── Modrinth catalogue ─────────────────────────
@@ -305,7 +311,7 @@ public final class ResourceBrowserDialog extends DialogFragment {
         mFetching = true;
         final int epoch = ++mFetchEpoch;
         final int offset = reset ? 0 : mOffset;
-        final String projectType = mType == TYPE_PACKS ? "resourcepack" : "shader";
+        final String projectType = mType == TYPE_PACKS ? "resourcepack" : (mType == TYPE_SHADERS ? "shader" : "mod");
         if (mLoading != null) mLoading.setVisibility(View.VISIBLE);
         if (mEmpty != null) mEmpty.setVisibility(View.GONE);
 
@@ -418,7 +424,7 @@ public final class ResourceBrowserDialog extends DialogFragment {
                     mAdapter.notifyChanged(e);
                     return;
                 }
-                String contentType = mType == TYPE_PACKS ? "resourcepack" : "shader";
+                String contentType = mType == TYPE_PACKS ? "resourcepack" : (mType == TYPE_SHADERS ? "shader" : "mod");
                 String profileKey = currentProfileKey();
                 // Already on disk? (same filename the existing system uses)
                 try {

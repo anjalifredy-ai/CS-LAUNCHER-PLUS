@@ -19,7 +19,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0B0713">
+    android:background="#0B1222">
 
     <!-- Background artwork (two layers for a crossfade when the primary changes) -->
     <ImageView
@@ -28,6 +28,7 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:alpha="0.55"
+        android:src="@drawable/bg_hero_minecraft"
         android:contentDescription="@null"
         tools:src="@drawable/bg_hero_minecraft" />
     <ImageView
@@ -68,7 +69,7 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="6dp"
-            android:paddingEnd="6dp"
+            android:paddingEnd="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -89,126 +90,106 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginStart="7dp"
                 android:orientation="vertical">
 
-                <!-- Phase 10: full brand on ONE line, "Made in India" + tricolour below -->
                 <TextView
                     android:id="@+id/lh_brand_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:includeFontPadding="false"
-                    android:letterSpacing="0.06"
+                    android:letterSpacing="0.03"
                     android:maxLines="1"
-                    android:singleLine="true"
-                    android:text="CS LAUNCHER PLUS"
+                    android:text="NEXUS LAUNCHER"
                     android:textColor="#FFFFFF"
-                    android:textSize="12sp"
+                    android:textSize="10sp"
                     android:textStyle="bold"
-                    tools:ignore="HardcodedText,Deprecated" />
+                    tools:ignore="HardcodedText" />
 
-                <LinearLayout
-                    android:id="@+id/lh_brand_origin"
+                <TextView
+                    android:id="@+id/lh_brand_sub"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/lh_brand_flag"
-                        android:layout_width="15dp"
-                        android:layout_height="10dp"
-                        android:contentDescription="@null"
-                        android:src="@drawable/ic_flag_india" />
-
-                    <TextView
-                        android:id="@+id/lh_brand_sub"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:includeFontPadding="false"
-                        android:letterSpacing="0.14"
-                        android:maxLines="1"
-                        android:text="MADE IN INDIA"
-                        android:textColor="#C9CED8"
-                        android:textSize="7.5sp"
-                        android:textStyle="bold"
-                        tools:ignore="HardcodedText,SmallSp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="22dp"
-                android:layout_marginEnd="8dp"
-                android:background="#2EFFFFFF" />
-
-            <LinearLayout
-                android:id="@+id/lh_btn_youtube"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:background="@drawable/bg_lh_pill_youtube"
-                android:clickable="true"
-                android:contentDescription="Open the CS Launcher YouTube channel"
-                android:focusable="true"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="9dp"
-                android:paddingEnd="11dp">
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_brand_youtube" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
                     android:includeFontPadding="false"
-                    android:letterSpacing="0.04"
-                    android:text="YouTube"
-                    android:textColor="#FFFFFF"
-                    android:textSize="10.5sp"
+                    android:letterSpacing="0.08"
+                    android:maxLines="1"
+                    android:text="MINECRAFT • YOUR WAY"
+                    android:textColor="#9AB0CF"
+                    android:textSize="6.5sp"
                     android:textStyle="bold"
-                    tools:ignore="HardcodedText" />
+                    tools:ignore="HardcodedText,SmallSp" />
             </LinearLayout>
+        </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/lh_btn_discord"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginStart="6dp"
-                android:background="@drawable/bg_lh_pill_discord"
+        <!-- Compact centered navigation row, matching the supplied reference. -->
+        <LinearLayout
+            android:id="@+id/lh_top_navigation"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_lh_glass"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="4dp"
+            app:layout_constraintStart_toEndOf="@id/lh_brand_cluster"
+            app:layout_constraintEnd_toStartOf="@id/lh_account_chip"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/lh_nav_home"
+                android:layout_width="62dp"
+                android:layout_height="32dp"
+                android:background="@drawable/bg_launcher_profile_bar"
+                android:gravity="center"
+                android:text="⌂ Home"
+                android:textColor="#EAF3FF"
+                android:textSize="10sp"
+                android:contentDescription="Home"
                 android:clickable="true"
-                android:contentDescription="Join the CS Launcher Discord"
-                android:focusable="true"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="9dp"
-                android:paddingEnd="11dp">
+                android:focusable="true" />
 
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="12dp"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_brand_discord" />
+            <TextView
+                android:id="@+id/lh_nav_resources"
+                android:layout_width="76dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="3dp"
+                android:background="@drawable/bg_lh_glass"
+                android:gravity="center"
+                android:text="Mods + Packs"
+                android:textColor="#DCEBFF"
+                android:textSize="10sp"
+                android:contentDescription="Browse mods, resource packs and shaders"
+                android:clickable="true"
+                android:focusable="true" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:includeFontPadding="false"
-                    android:letterSpacing="0.04"
-                    android:text="Discord"
-                    android:textColor="#FFFFFF"
-                    android:textSize="10.5sp"
-                    android:textStyle="bold"
-                    tools:ignore="HardcodedText" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/lh_nav_instances"
+                android:layout_width="76dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="3dp"
+                android:background="@drawable/bg_lh_glass"
+                android:gravity="center"
+                android:text="Instances"
+                android:textColor="#DCEBFF"
+                android:textSize="10sp"
+                android:contentDescription="Choose instance"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <TextView
+                android:id="@+id/lh_nav_manager"
+                android:layout_width="76dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="3dp"
+                android:background="@drawable/bg_lh_glass"
+                android:gravity="center"
+                android:text="Settings"
+                android:textColor="#DCEBFF"
+                android:textSize="10sp"
+                android:contentDescription="Manager"
+                android:clickable="true"
+                android:focusable="true" />
         </LinearLayout>
 
         <!-- ═══ ACCOUNT CHIP (top-right) ═══ -->
@@ -235,7 +216,7 @@
                 android:background="@drawable/bg_lh_card_icon"
                 android:padding="2dp"
                 android:src="@drawable/ic_profile_player"
-                app:tint="#8B5CF6"
+                app:tint="#60A5FA"
                 android:contentDescription="Account" />
 
             <TextView
@@ -264,7 +245,7 @@
                 android:letterSpacing="0.06"
                 android:paddingHorizontal="7dp"
                 android:paddingVertical="3dp"
-                android:background="@drawable/bg_hd_badge_purple"
+                android:background="@drawable/bg_lh_glass"
                 android:includeFontPadding="false" />
 
             <ImageView
@@ -272,7 +253,7 @@
                 android:layout_height="13dp"
                 android:layout_marginStart="4dp"
                 android:src="@drawable/ic_chevron_down"
-                app:tint="#9A91B5"
+                app:tint="#9AB0CF"
                 android:contentDescription="@null" />
         </LinearLayout>
 
@@ -391,7 +372,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/minecraftia"
                         android:text="LAUNCHING"
-                        android:textColor="#A78BFA"
+                        android:textColor="#93C5FD"
                         android:textSize="8sp"
                         android:letterSpacing="0.12"
                         android:includeFontPadding="false" />
@@ -418,9 +399,8 @@
                     android:gravity="end"
                     android:fontFamily="@font/minecraftia"
                     android:text="0%"
-                    android:textColor="#EDEAF7"
+                    android:textColor="#EAF3FF"
                     android:textSize="13sp"
-                    android:includeFontPadding="false" />
                     android:textStyle="bold"
                     android:includeFontPadding="false" />
             </LinearLayout>
@@ -443,55 +423,135 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text=""
-                android:textColor="#B9B5C9"
+                android:textColor="#A9BDD9"
                 android:textSize="10.5sp"
                 android:includeFontPadding="false" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/lh_launch_row"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/lh_launch_specs"
-            android:layout_marginBottom="6dp">
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp">
+
+            <LinearLayout
+                android:id="@+id/lh_selected_profile"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/lh_launch_button_h"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="9dp"
+                android:background="@drawable/bg_launcher_profile_bar"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="Choose selected instance">
+
+                <ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:src="@drawable/ic_layers"
+                    android:contentDescription="@null"
+                    app:tint="#A9C8F7" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="7dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/lh_selected_profile_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="SELECTED PROFILE"
+                        android:textColor="#F4F7FF"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:ellipsize="end" />
+
+                    <TextView
+                        android:id="@+id/lh_selected_profile_version"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Choose an instance"
+                        android:textColor="#9AB0CF"
+                        android:textSize="8sp"
+                        android:maxLines="1"
+                        android:ellipsize="end" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⌄"
+                    android:textColor="#B8D2FA"
+                    android:textSize="17sp" />
+            </LinearLayout>
 
             <!-- Signature launch capsule: wave/glow morph + STOP-cancel. -->
             <net.kdt.pojavlaunch.ui.PremiumPlayButtonView
                 android:id="@+id/lh_launch_button"
-                android:layout_width="168dp"
+                android:layout_width="150dp"
                 android:layout_height="@dimen/lh_launch_button_h"
                 android:contentDescription="Launch Minecraft">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:paddingHorizontal="24dp">
+                    android:gravity="center"
+                    android:paddingHorizontal="8dp">
 
                     <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:src="@drawable/ic_play_arrow"
                         app:tint="#0E0E11"
                         android:contentDescription="@null" />
 
-                    <TextView
-                        android:id="@+id/lh_launch_label"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:text="LAUNCH"
-                        android:textColor="#0E0E11"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:letterSpacing="0.12"
-                        android:includeFontPadding="false" />
+                        android:layout_marginStart="7dp"
+                        android:orientation="vertical"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/lh_launch_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PLAY"
+                            android:textColor="#0E0E11"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:letterSpacing="0.08"
+                            android:includeFontPadding="false" />
+
+                        <TextView
+                            android:id="@+id/lh_launch_version"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:text="Select version"
+                            android:textColor="#253247"
+                            android:textSize="8sp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            android:includeFontPadding="false" />
+                    </LinearLayout>
                 </LinearLayout>
             </net.kdt.pojavlaunch.ui.PremiumPlayButtonView>
 
@@ -509,9 +569,72 @@
                     android:layout_height="17dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_edit_profile"
-                    app:tint="#C9C4D8"
+                    app:tint="#D5E6FF"
                     android:contentDescription="Edit profile" />
             </FrameLayout>
+        </LinearLayout>
+
+
+        <!-- Hosting shortcuts requested for the custom Home UI. -->
+        <LinearLayout
+            android:id="@+id/lh_hosting_row"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="@drawable/bg_lh_glass"
+            android:paddingHorizontal="5dp"
+            android:layout_marginBottom="6dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/lh_launch_row">
+
+            <TextView
+                android:id="@+id/lh_hosting_aternos"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:gravity="center"
+                android:paddingHorizontal="10dp"
+                android:text="Aternos"
+                android:textColor="#F4F7FF"
+                android:textStyle="bold"
+                android:textSize="10sp"
+                android:background="@drawable/bg_lh_glass"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="Open Aternos server hosting" />
+
+            <TextView
+                android:id="@+id/lh_hosting_minehut"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginStart="4dp"
+                android:gravity="center"
+                android:paddingHorizontal="10dp"
+                android:text="Minehut"
+                android:textColor="#F4F7FF"
+                android:textStyle="bold"
+                android:textSize="10sp"
+                android:background="@drawable/bg_lh_glass"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="Open Minehut server hosting" />
+
+            <TextView
+                android:id="@+id/lh_hosting_exaroton"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginStart="4dp"
+                android:gravity="center"
+                android:paddingHorizontal="10dp"
+                android:text="exaroton"
+                android:textColor="#F4F7FF"
+                android:textStyle="bold"
+                android:textSize="10sp"
+                android:background="@drawable/bg_lh_glass"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="Open exaroton server hosting" />
         </LinearLayout>
 
         <!-- Profile runtime Java version and RAM allocation spec pill -->
@@ -527,14 +650,15 @@
             android:layout_marginBottom="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/lh_library">
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <ImageView
                 android:id="@+id/lh_spec_java_icon"
                 android:layout_width="12dp"
                 android:layout_height="12dp"
                 android:src="@drawable/ic_settings_java"
-                app:tint="#9DA3B4"
+                app:tint="#A9BDD9"
                 android:contentDescription="@null" />
 
             <TextView
@@ -543,7 +667,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="Java 21"
-                android:textColor="#C5C8D4"
+                android:textColor="#D3E2F8"
                 android:textSize="11sp"
                 android:fontFamily="sans-serif-medium"
                 android:includeFontPadding="false" />
@@ -559,7 +683,7 @@
                 android:layout_width="12dp"
                 android:layout_height="12dp"
                 android:src="@drawable/ic_settings_performance"
-                app:tint="#9DA3B4"
+                app:tint="#A9BDD9"
                 android:contentDescription="@null" />
 
             <TextView
@@ -568,17 +692,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="4096 MB RAM"
-                android:textColor="#C5C8D4"
+                android:textColor="#D3E2F8"
                 android:textSize="11sp"
                 android:fontFamily="sans-serif-medium"
                 android:includeFontPadding="false" />
         </LinearLayout>
+
+        <!-- Quick-action cards removed: all navigation lives in the top bar. -->
 
         <!-- ═══ INSTANCE LIBRARY CAROUSEL (bottom, clear of the dock) ═══ -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/lh_library"
             android:layout_width="0dp"
             android:layout_height="@dimen/lh_carousel_height"
+            android:visibility="gone"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
@@ -595,7 +722,7 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:text="Your library will live here — create your first instance to begin."
-            android:textColor="#B9B5C9"
+            android:textColor="#A9BDD9"
             android:textSize="12sp"
             android:includeFontPadding="false"
             app:layout_constraintStart_toStartOf="@id/lh_library"

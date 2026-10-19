@@ -2,8 +2,14 @@ name: Build CS Launcher Plus APK
 
 on:
   workflow_dispatch:
-  push:
+  pull_request:
     branches: [ main ]
+    paths-ignore:
+      - '**.md'
+      - 'LICENSE'
+      - 'NOTICE'
+  push:
+    branches: [ main, 'codex/**' ]
     paths-ignore:
       - '**.md'
       - 'LICENSE'

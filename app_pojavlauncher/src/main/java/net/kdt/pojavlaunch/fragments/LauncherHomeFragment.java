@@ -99,6 +99,9 @@ public class LauncherHomeFragment extends Fragment implements DragTutorialHost {
 
     // Stage
     private TextView mLaunchLabel;
+    private TextView mLaunchVersion;
+    private TextView mSelectedProfileName;
+    private TextView mSelectedProfileVersion;
     private TextView mHeroName;
     private PremiumPlayButtonView mLaunchButton;
     private View mLaunchSpecs;
@@ -145,12 +148,29 @@ public class LauncherHomeFragment extends Fragment implements DragTutorialHost {
         super(R.layout.fragment_launcher_home);
     }
 
+
+    private void bindHostingShortcut(@NonNull View root, int viewId, @NonNull String url) {
+        View shortcut = root.findViewById(viewId);
+        if (shortcut == null) return;
+        shortcut.setOnClickListener(v -> {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse(url));
+                startActivity(intent);
+            } catch (Exception e) {
+                Toast.makeText(requireContext(), "Unable to open hosting website", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mBgA = view.findViewById(R.id.lh_bg_a);
         mBgB = view.findViewById(R.id.lh_bg_b);
         mLaunchButton = view.findViewById(R.id.lh_launch_button);
         mLaunchLabel = view.findViewById(R.id.lh_launch_label);
+        mLaunchVersion = view.findViewById(R.id.lh_launch_version);
+        mSelectedProfileName = view.findViewById(R.id.lh_selected_profile_name);
+        mSelectedProfileVersion = view.findViewById(R.id.lh_selected_profile_version);
         mLaunchSpecs = view.findViewById(R.id.lh_launch_specs);
         mSpecJavaText = view.findViewById(R.id.lh_spec_java_text);
         mSpecRamText = view.findViewById(R.id.lh_spec_ram_text);
@@ -204,26 +224,34 @@ public class LauncherHomeFragment extends Fragment implements DragTutorialHost {
 
         mAccountChip.setOnClickListener(v -> switchAccount());
 
+        View selectedProfile = view.findViewById(R.id.lh_selected_profile);
+        if (selectedProfile != null) {
+            UiMotion.pressFeedback(selectedProfile);
+            selectedProfile.setOnClickListener(v -> showInstanceChooser());
+        }
+
+        View navHome = view.findViewById(R.id.lh_nav_home);
+        if (navHome != null) navHome.setOnClickListener(v -> loadData());
+        View navResources = view.findViewById(R.id.lh_nav_resources);
+        if (navResources != null) navResources.setOnClickListener(v -> ResourceBrowserDialog.show(requireActivity()));
+        View navManager = view.findViewById(R.id.lh_nav_manager);
+        if (navManager != null) navManager.setOnClickListener(v -> showInstalledFilesManager());
+        View navInstances = view.findViewById(R.id.lh_nav_instances);
+
+        if (navInstances != null) navInstances.setOnClickListener(v -> showInstanceChooser());
+
+        // External hosting providers are browser shortcuts; no hosting backend is created here.
+        bindHostingShortcut(view, R.id.lh_hosting_aternos, "https://aternos.org/");
+        bindHostingShortcut(view, R.id.lh_hosting_minehut, "https://minehut.com/");
+        bindHostingShortcut(view, R.id.lh_hosting_exaroton, "https://exaroton.com/");
+
+
         // ── Brand cluster (top-left, Phase 8): YouTube red / Discord blurple.
         //    Slides in from the left while the account chip lands on the right;
         //    the pills pop one after another (anime stagger). ──
         View brand = view.findViewById(R.id.lh_brand_cluster);
-        View yt = view.findViewById(R.id.lh_btn_youtube);
-        View dc = view.findViewById(R.id.lh_btn_discord);
-        if (yt != null) yt.setOnClickListener(v -> {
-            net.kdt.pojavlaunch.Anime.pop(v);
-            v.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
-            net.kdt.pojavlaunch.CsLinks.open(v.getContext(), net.kdt.pojavlaunch.CsLinks.YOUTUBE);
-        });
-        if (dc != null) dc.setOnClickListener(v -> {
-            net.kdt.pojavlaunch.Anime.pop(v);
-            v.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
-            net.kdt.pojavlaunch.CsLinks.open(v.getContext(), net.kdt.pojavlaunch.CsLinks.DISCORD);
-        });
         if (brand != null) {
             net.kdt.pojavlaunch.Anime.in(brand, net.kdt.pojavlaunch.Anime.Fx.FADE_RIGHT, 80, 620, net.kdt.pojavlaunch.Anime.OUT_EXPO);
-            net.kdt.pojavlaunch.Anime.in(yt, net.kdt.pojavlaunch.Anime.Fx.POP, 420, 520, net.kdt.pojavlaunch.Anime.OUT_BACK);
-            net.kdt.pojavlaunch.Anime.in(dc, net.kdt.pojavlaunch.Anime.Fx.POP, 500, 520, net.kdt.pojavlaunch.Anime.OUT_BACK);
             net.kdt.pojavlaunch.Anime.in(mAccountChip, net.kdt.pojavlaunch.Anime.Fx.FADE_LEFT, 80, 620, net.kdt.pojavlaunch.Anime.OUT_EXPO);
         }
 
@@ -954,14 +982,22 @@ public class LauncherHomeFragment extends Fragment implements DragTutorialHost {
         }
         mPrimaryKey = mKeys.get(0);
         MinecraftProfile p = mProfiles.get(0);
-        mLaunchLabel.setText("LAUNCH");
+        if (mSelectedProfileName != null) mSelectedProfileName.setText(p.name == null ? "Minecraft" : p.name);
+        if (mSelectedProfileVersion != null) {
+            String version = p.lastVersionId == null ? "Version not selected" : p.lastVersionId;
+            mSelectedProfileVersion.setText(version);
+        }
+        if (mLaunchVersion != null) {
+            mLaunchVersion.setText(p.lastVersionId == null ? "Select version" : p.lastVersionId);
+        }
+        mLaunchLabel.setText("PLAY");
         mLaunchButton.setContentDescription("Launch " + (p.name != null ? p.name : "instance"));
 
-        if (mLaunchSpecs != null) {
-            mLaunchSpecs.setVisibility(View.VISIBLE);
-            if (mSpecJavaText != null) mSpecJavaText.setText(resolveJavaVersion(p));
-            if (mSpecRamText != null) mSpecRamText.setText(resolveAllocatedRam());
-        }
+        // Java/RAM metadata is kept for settings, not as an extra floating
+        // row on the home screen; the version is shown inside the Play capsule.
+        if (mLaunchSpecs != null) mLaunchSpecs.setVisibility(View.GONE);
+        if (mSpecJavaText != null) mSpecJavaText.setText(resolveJavaVersion(p));
+        if (mSpecRamText != null) mSpecRamText.setText(resolveAllocatedRam());
 
         // Async: mods count + stage background artwork.
         final String key = mPrimaryKey;
@@ -1009,7 +1045,9 @@ public class LauncherHomeFragment extends Fragment implements DragTutorialHost {
             mLibrary.setVisibility(View.GONE);
             return;
         }
-        mLibrary.setVisibility(View.VISIBLE);
+        // The reference home uses a compact selected-profile pill instead of
+        // a persistent bottom carousel. All profiles remain available in the picker.
+        mLibrary.setVisibility(View.GONE);
         if (mAdapter != null) mAdapter.updateData(mKeys, mProfiles);
         // One-time staggered card entrance (first successful load only).
         if (!mLibraryIntroduced) {
@@ -1647,6 +1685,70 @@ public class LauncherHomeFragment extends Fragment implements DragTutorialHost {
                 else mAccountHead.setImageResource(R.drawable.ic_profile_player);
             });
         });
+    }
+
+    /** Instance chooser shown from the profile pill and top navigation. */
+    private void showInstanceChooser() {
+        if (!isAdded()) return;
+        if (mKeys == null || mKeys.isEmpty()) {
+            new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                    .setTitle("ALL INSTANCES")
+                    .setMessage("No instances yet. Create one to get started.")
+                    .setPositiveButton("Create New Instance", (dialog, which) -> CreationTypeDialog.show(this))
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show();
+            return;
+        }
+        String[] labels = new String[mKeys.size()];
+        int checked = 0;
+        for (int i = 0; i < mKeys.size(); i++) {
+            MinecraftProfile p = i < mProfiles.size() ? mProfiles.get(i) : null;
+            labels[i] = p == null || p.name == null ? "Minecraft instance" : p.name;
+            if (mKeys.get(i).equals(mPrimaryKey)) checked = i;
+        }
+        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle("ALL INSTANCES")
+                .setSingleChoiceItems(labels, checked, (dialog, which) -> {
+                    if (which >= 0 && which < mKeys.size() && which < mProfiles.size()) {
+                        promoteToPrimary(mKeys.get(which), mProfiles.get(which));
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton("Create New Instance", (dialog, which) -> CreationTypeDialog.show(this))
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+    }
+
+    /** Opens the selected instance's real game folders. */
+    private void showInstalledFilesManager() {
+        if (!isAdded()) return;
+        if (mPrimaryKey == null) {
+            Toast.makeText(requireContext(), "Create an instance first", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        LauncherProfiles.load();
+        MinecraftProfile profile = LauncherProfiles.mainProfileJson == null
+                || LauncherProfiles.mainProfileJson.profiles == null
+                ? null : LauncherProfiles.mainProfileJson.profiles.get(mPrimaryKey);
+        if (profile == null) {
+            Toast.makeText(requireContext(), "Selected instance was not found", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        final File gameDir = Tools.getGameDirPath(profile);
+        final String[] labels = {"Mods", "Resource Packs", "Shader Packs", "Worlds", "Open Instance Folder"};
+        final String[] folders = {"mods", "resourcepacks", "shaderpacks", "saves", null};
+        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle("MANAGER · " + (profile.name == null ? "Instance" : profile.name))
+                .setItems(labels, (dialog, which) -> {
+                    File target = folders[which] == null ? gameDir : new File(gameDir, folders[which]);
+                    if (folders[which] != null && !target.exists() && !target.mkdirs()) {
+                        Toast.makeText(requireContext(), "Couldn't create folder", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Tools.openPath(requireContext(), target, false);
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
     }
 
     /** Opens the existing account dialog (add / switch / delete). */
