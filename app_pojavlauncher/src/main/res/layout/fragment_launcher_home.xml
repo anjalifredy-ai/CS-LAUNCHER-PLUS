@@ -422,7 +422,6 @@
                     android:text="0%"
                     android:textColor="#EDEAF7"
                     android:textSize="13sp"
-                    android:includeFontPadding="false" />
                     android:textStyle="bold"
                     android:includeFontPadding="false" />
             </LinearLayout>
